@@ -1,0 +1,22 @@
+// * 全局覆盖antd样式
+
+:global(.tabPaneInnerContainer) {
+  height: 700px;
+  overflow-y: auto;
+  box-sizing: border-box;
+    padding: 0 30px;
+}
+
+.formItemContentLayer {
+  display: flex;
+  justify-content: flex-start;
+  :global(.ant-btn) {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  :global(.ant-input) {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+}

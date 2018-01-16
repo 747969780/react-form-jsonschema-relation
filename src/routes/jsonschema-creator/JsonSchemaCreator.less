@@ -1,0 +1,50 @@
+@import '~@less/common.less';
+
+.mainWrapper {
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  > div {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 48%;
+    height: 96%;
+    margin: auto 1%;
+    min-height: 400px;
+    box-sizing: border-box;
+  }
+  .creator {
+    // border: 1px solid red;
+    box-shadow: 0 2px 6px 0 #cacaca;
+    min-height: 400px;
+  }
+  .previewer {
+    // border: 1px solid blue;
+    box-shadow: 0 2px 6px 0 #cacaca;
+    min-height: 400px;
+  }
+  // .tabPaneInnerContainer {
+  //   box-sizing: border-box;
+  //   padding: 0 30px;
+  // }
+}
+.propertyController {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  // padding: 0 0 0 30px;
+  > button {
+    flex-shrink: 1;
+    margin: 0 8% 12px 0;
+    width: 25%;
+    max-width: 159px;
+  }
+}
+.tabPaneInnerContainer {
+  height: 700px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 0 30px;
+}
