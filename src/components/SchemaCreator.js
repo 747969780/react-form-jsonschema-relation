@@ -129,7 +129,7 @@ class SchemaCreator extends React.Component {
             <Input value={ this.state.newProperty.key } onInput={ this.keyInput }></Input>
           </FormItem>
           <FormItem label="type">
-            <Select value={ this.state.newProperty.type } onChange={this.typeChange}>
+            <Select allowClear={ true } value={ this.state.newProperty.type } onChange={this.typeChange}>
               { selectOptions }
             </Select>
           </FormItem>

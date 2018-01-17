@@ -1,8 +1,5 @@
 import React from 'react';
 
-// * 样式
-// import styles from '@less/JsonSchemaTypes/json-object-type.less';
-
 // * antd 组件
 import {
   Form
@@ -10,9 +7,6 @@ import {
 
 import SchemaCreator from '@components/SchemaCreator';
 import ActionButtons from '@components/ActionButtons';
-
-// import JsonStringType from '@components/JsonSchemaTypes/JsonStringType';
-// import JsonArrayType from '@components/JsonSchemaTypes/JsonArrayType';
 
 import JsonTypeCompList from '@components/JsonSchemaTypes/JsonTypeCompList';
 
@@ -23,15 +17,11 @@ class JsonObjectType extends React.Component {
   };
 
   objectTypeProperty = [
+    'key',
     'title',
     'description',
     'properties',
     'required',
-  ]
-
-  objectTypePropertySpec = [
-    'key',
-    'definitions',
   ]
 
   constructor () {
@@ -47,9 +37,9 @@ class JsonObjectType extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     console.log('nextProps', nextProps);
-    if (nextProps.properties) {
+    if (nextProps.typeProperty[1].properties) {
       this.setState({
-        propertiesList: Object.entries(nextProps.properties)
+        propertiesList: Object.entries(nextProps.typeProperty[1].properties)
       });
     }
   }
@@ -60,7 +50,8 @@ class JsonObjectType extends React.Component {
   // * ------------
 
   setNewProperty = (newProperty) => {
-    this.props.setNewProperty(newProperty);
+    console.log('newProperty', newProperty);
+    // this.props.setNewProperty(newProperty);
   }
 
   deleteProperty = (keyPath) => {
@@ -72,6 +63,7 @@ class JsonObjectType extends React.Component {
       showSchemaCreator: false
     });
   }
+
 
   // * ------------
 
@@ -104,15 +96,15 @@ class JsonObjectType extends React.Component {
         <ActionButtons {
           ...this.methodsToProp
         } buttonTypes={
-          this.props.outerObject ? this.objectTypeProperty.concat('definitions') : this.objectTypeProperty.concat('key')
+          this.objectTypeProperty
+        } currentParentSchemaName={
+          this.props.typeProperty[0]
         }></ActionButtons>
         <div className="ant-form ant-form-horizontal">
           <JsonTypeCompList propertiesList={
             this.state.propertiesList
           } deleteProperty={
             this.deleteProperty
-          } setNewProperty={
-            this.setNewProperty
           }></JsonTypeCompList>
         </div>
         {

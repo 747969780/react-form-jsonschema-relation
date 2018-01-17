@@ -10,36 +10,65 @@ import {
 class ActionButtons extends React.Component {
 
   state = {
-
+    buttonsIns: []
   };
 
   // * ------------
 
   componentDidMount () {
     console.log('props', this.props);
+    this.setState({
+      buttonsIns: this.props.buttonTypes.map((type) => {
+        let key = type + (this.props.currentParentSchemaName ? this.props.currentParentSchemaName : '');
+        return <Button key={ `${key}` } type="primary" onClick={
+          () => {
+            this.actionClick(type);
+          }
+        }>{ `设置${ type }` }</Button>
+      })
+    })
   }
 
   // * ------------
 
-  actionAddProperty = () => {
-    console.log('props', this.props);
-    this.props.actionAddProperty();
+  actionClick = (type) => {
+    console.log('type', type);
+    switch (type) {
+      case 'title':
+        break;
+      case 'description':
+        break;
+      case 'properties':
+        this.actionAddProperty();
+        break;
+      case 'definitions':
+        break;
+      case 'required':
+        break;
+      default:
+        return;
+    }
   }
 
-  actionSetRequired = () => {
-    this.props.actionSetRequired();
+  actionAddProperty = () => {
+    console.log('props', this.props);
+    this.props.actionAddProperty && this.props.actionAddProperty();
   }
 
   actionSetTitle = () => {
-    this.props.actionSetTitle();
+    this.props.actionSetTitle && this.props.actionSetTitle();
   }
 
   actionSetDescription = () => {
-    this.props.actionSetDescription();
+    this.props.actionSetDescription && this.props.actionSetDescription();
   }
 
   actionSetDefinitions = () => {
-    this.props.actionSetDefinitions();
+    this.props.actionSetDefinitions && this.props.actionSetDefinitions();
+  }
+
+  actionSetRequired = () => {
+    this.props.actionSetRequired && this.props.actionSetRequired();
   }
 
   // * ------------
@@ -47,11 +76,9 @@ class ActionButtons extends React.Component {
   render () {
     return (
       <div className={ styles.propertyController }>
-        <Button type="primary" onClick={this.actionSetTitle}>设置title</Button>
-        <Button type="primary" onClick={this.actionSetDescription}>设置description</Button>
-        <Button type="primary" onClick={this.actionSetDefinitions}>设置definitions</Button>
-        <Button type="primary" onClick={this.actionAddProperty}>添加property</Button>
-        <Button type="primary" onClick={this.actionSetRequired}>设置required</Button>
+        {
+          this.state.buttonsIns
+        }
       </div>
     )
   }

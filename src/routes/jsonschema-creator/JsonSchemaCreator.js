@@ -146,6 +146,8 @@ class JsonSchemaCreator extends React.Component {
                   this.state.JSONSchema.properties
                 } setNewProperty={
                   this.setNewProperty
+                } outerObject={
+                  true
                 }></JsonObjectType>
               </div>
             </TabPane>

@@ -12,18 +12,20 @@ import ActionButtons from '@components/ActionButtons';
 
 const FormItem = Form.Item;
 
-class JsonStringType extends React.Component {
+class arrayTypeProperty extends React.Component {
 
   state = {
     borderColor: '',
     propertiesList: []
   };
 
-  stringTypeProperty = [
+  arrayTypeProperty = [
     'key',
-    'type',
     'title',
-    'description'
+    'type',
+    'description',
+    'fixItem',
+    'additionalItem'
   ]
 
   constructor () {
@@ -42,6 +44,7 @@ class JsonStringType extends React.Component {
     });
     console.log('propertiesList', this.state.propertiesList);
   }
+
   // * ------------
 
   getRandomColor () {
@@ -57,15 +60,15 @@ class JsonStringType extends React.Component {
 
 
   actionSetTitle = () => {
-    console.log('json-string-type actionSetTitle');
+    console.log('json-array-type actionSetTitle');
   }
 
   actionSetDescription = () => {
-    console.log('json-string-type actionSetDescription');
+    console.log('json-array-type actionSetDescription');
   }
 
   actionSetKey = () => {
-    console.log('json-string-type actionSetKey');
+    console.log('json-array-type actionSetKey');
   }
 
   // * ------------
@@ -78,7 +81,7 @@ class JsonStringType extends React.Component {
 
   render () {
     const propertiesListComp = this.state.propertiesList.map((name) => {
-      if (this.stringTypeProperty.indexOf(name) === -1) {
+      if (this.arrayTypeProperty.indexOf(name) === -1) {
         return '';
       }
       let nameValue = (this.props.typeProperty[1])[name] !== undefined ? (this.props.typeProperty[1])[name] : this.props.typeProperty[0];
@@ -91,7 +94,7 @@ class JsonStringType extends React.Component {
         <ActionButtons {
           ...this.methodsToProp
         } buttonTypes={
-          this.stringTypeProperty
+          this.arrayTypeProperty
         }></ActionButtons>
         <div className="formItemContentLayer">
           <Button type="danger" icon="close" onClick={ this.deleteSelf }/>
@@ -105,4 +108,4 @@ class JsonStringType extends React.Component {
 
 }
 
-export default JsonStringType;
+export default arrayTypeProperty;
