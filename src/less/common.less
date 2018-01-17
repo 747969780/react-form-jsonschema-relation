@@ -7,16 +7,40 @@
     padding: 0 30px;
 }
 
-.formItemContentLayer {
-  display: flex;
-  justify-content: flex-start;
-  :global(.ant-btn) {
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin-left: 12px;
+// * 上下border（用于区分不同的JsonType）
+:global {
+  .form-spe-border {
+    box-sizing: border-box;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    &.middle-padding {
+      padding: 12px 30px;
+    }
   }
-  :global(.ant-input) {
-    flex-grow: 1;
-    flex-shrink: 1;
+}
+
+:global {
+  .formItemContentLayer {
+    display: flex;
+    justify-content: flex-start;
+    .formItemLayerContentGrow {
+      flex-grow: 1;
+      flex-shrink: 1;
+      box-sizing: border-box;
+      padding-left: 12px;
+      border-left: 1px solid #e8e8e8;
+    }
+    .ant-btn {
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+    .ant-input {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+  }
+  .init-p {
+    line-height: 1.2;
   }
 }

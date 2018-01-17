@@ -3,10 +3,8 @@ import React from 'react';
 // * 页面样式
 import styles from './JsonSchemaCreator.less';
 
-import SetForm from '@components/SetForm';
-
 // * 表单创建-组件
-import FormCtrlCreator from '@components/FormCtrl/FormCtrlCreator';
+import JsonObjectType from '@components/JsonSchemaTypes/JsonObjectType';
 
 // * antd tabs组件
 import {
@@ -40,7 +38,7 @@ class JsonSchemaCreator extends React.Component {
    * @formDataSchema: formData的总合集
    */
   state = {
-    showSetForm: false,
+    showSchemaCreator: false,
     JSONSchema: {
       definitions: {},
       type: 'object',
@@ -74,9 +72,9 @@ class JsonSchemaCreator extends React.Component {
     message.error(option.message, option.duration);
   }
 
-  closeSetForm = () => {
+  closeSchemaCreator = () => {
     this.setState({
-      showSetForm: false
+      showSchemaCreator: false
     });
   }
 
@@ -129,48 +127,26 @@ class JsonSchemaCreator extends React.Component {
 
   // * ------------
 
-  actionAddProperty = () => {
-    this.setState({
-      showSetForm: true
-    });
-  }
 
-  actionSetRequired = () => {
-
-  }
-
-  actionSetTitle = () => {
-
-  }
-
-  actionSetDescription = () => {
-
-  }
-
-  actionSetDefinitions = () => {
-
-  }
 
   // * ------------
 
   // * 渲染
   render () {
     return (
-      <div className={ styles.mainWrapper }>
+      <div className={ styles.mainWrapper } id="main-wrapper">
         <div className={ styles.creator }>
           <Tabs defaultActiveKey="1" onChange={this.tabsChange}>
             <TabPane tab="Schema" key="1">
               <div className={ styles.tabPaneInnerContainer }>
-                <div className={ styles.propertyController }>
-                  <Button type="primary" onClick={this.actionAddProperty}>添加property</Button>
-                  <Button type="primary" onClick={this.actionSetRequired}>设置required</Button>
-                  <Button type="primary" onClick={this.actionSetTitle}>设置title</Button>
-                  <Button type="primary" onClick={this.actionSetDescription}>设置description</Button>
-                  <Button type="primary" onClick={this.actionSetDefinitions}>设置definitions</Button>
-                </div>
-                <FormCtrlCreator deleteProperty={ this.deleteProperty } properties={
+                <JsonObjectType
+                  deleteProperty={
+                  this.deleteProperty
+                } properties={
                   this.state.JSONSchema.properties
-                }></FormCtrlCreator>
+                } setNewProperty={
+                  this.setNewProperty
+                }></JsonObjectType>
               </div>
             </TabPane>
             <TabPane tab="UISchema" key="2"></TabPane>
@@ -178,10 +154,6 @@ class JsonSchemaCreator extends React.Component {
           </Tabs>
         </div>
         <div className={ styles.previewer }></div>
-        {
-          this.state.showSetForm &&
-          <SetForm closeSetForm={ this.closeSetForm } setNewProperty={ this.setNewProperty }></SetForm>
-        }
       </div>
     );
   }
