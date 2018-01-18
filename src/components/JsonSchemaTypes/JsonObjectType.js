@@ -5,7 +5,8 @@ import React from 'react';
 
 // * antd 组件
 import {
-  Form
+  Form,
+  Button
 } from 'antd';
 
 import SchemaCreator from '@components/SchemaCreator';
@@ -18,8 +19,10 @@ import JsonTypeCompList from '@components/JsonSchemaTypes/JsonTypeCompList';
 
 class JsonObjectType extends React.Component {
   state = {
+    foldingStatus: false,
     showSchemaCreator: false,
-    propertiesList: []
+    propertiesList: [],
+    objectProp: []
   };
 
   objectTypeProperty = [
@@ -27,6 +30,8 @@ class JsonObjectType extends React.Component {
     'description',
     'properties',
     'required',
+    'type',
+    'definitions'
   ]
 
   objectTypePropertySpec = [
@@ -47,17 +52,32 @@ class JsonObjectType extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     console.log('nextProps', nextProps);
-    if (nextProps.properties) {
+    if (nextProps.schema.properties) {
       this.setState({
-        propertiesList: Object.entries(nextProps.properties)
+        propertiesList: Object.entries(nextProps.schema.properties),
+        objectProp: Object.keys(nextProps.schema)
       });
     }
   }
 
   componentDidMount () {
+    if (this.props.schema.properties) {
+      this.setState({
+        propertiesList: Object.entries(this.props.schema.properties),
+        objectProp: Object.keys(this.props.schema)
+      });
+    }
   }
 
   // * ------------
+
+  setFoldingStatus = () => {
+    this.setState((prevState, props) => {
+      return {
+        foldingStatus: !prevState.foldingStatus
+      };
+    });
+  }
 
   setNewProperty = (newProperty) => {
     this.props.setNewProperty(newProperty);
@@ -70,6 +90,16 @@ class JsonObjectType extends React.Component {
   closeSchemaCreator = () => {
     this.setState({
       showSchemaCreator: false
+    });
+  }
+
+  setFormData = (formData) => {
+    let tmpFormData = {
+      ...this.props.formDataObj,
+      ...formData
+    };
+    this.props.setFormData({
+      [this.props.typeProperty[0]]: tmpFormData
     });
   }
 
@@ -99,22 +129,45 @@ class JsonObjectType extends React.Component {
   // * ------------
 
   render () {
+    // * 属性的信息列表
+    const propertiesListComp = this.state.objectProp.map((name) => {
+      if (this.objectTypeProperty.indexOf(name) === -1) {
+        return '';
+      }
+      let nameValue = this.props.schema[name];
+      return <p className="init-p" key={ `${ name }` }>{ `${ name }: ${ nameValue }`  }</p>
+    });
+
     return (
       <div className="form-spe-border middle-padding">
         <ActionButtons {
           ...this.methodsToProp
         } buttonTypes={
-          this.props.outerObject ? this.objectTypeProperty.concat('definitions') : this.objectTypeProperty.concat('key')
+          this.objectTypeProperty
         }></ActionButtons>
-        <div className="ant-form ant-form-horizontal">
-          <JsonTypeCompList propertiesList={
-            this.state.propertiesList
-          } deleteProperty={
-            this.deleteProperty
-          } setNewProperty={
-            this.setNewProperty
-          }></JsonTypeCompList>
+        <div className="formItemContentLayer">
+          <div className="formItemLayerContentBtns">
+            <Button type="primary" icon={ this.state.foldingStatus ? 'arrows-alt' : 'shrink' } onClick={ this.setFoldingStatus }/>
+          </div>
+          <div className="formItemLayerContentGrow">
+            { propertiesListComp }
+          </div>
         </div>
+        { !this.state.foldingStatus &&
+          <div className="ant-form ant-form-horizontal">
+            <JsonTypeCompList propertiesList={
+              this.state.propertiesList
+            } deleteProperty={
+              this.deleteProperty
+            } setNewProperty={
+              this.setNewProperty
+            } formDataObj={
+              this.props.formData
+            } setFormData={
+              this.props.setFormData
+            }></JsonTypeCompList>
+          </div>
+        }
         {
           this.state.showSchemaCreator &&
           <SchemaCreator closeSchemaCreator={ this.closeSchemaCreator } setNewProperty={ this.setNewProperty }></SchemaCreator>

@@ -42,10 +42,15 @@ class JsonSchemaCreator extends React.Component {
     JSONSchema: {
       definitions: {},
       type: 'object',
-      title: '',
-      description: '',
+      title: 'outer-object-title',
+      description: 'outer-object-desc',
       required: [],
       properties: {}
+    },
+    UISchema: {
+    },
+    FormData: {
+
     }
   }
 
@@ -80,14 +85,14 @@ class JsonSchemaCreator extends React.Component {
 
   setNewProperty = (newProperty) => {
     console.log('newProperty', newProperty);
-    let tmpList = Object.keys(newProperty);
-    if (this.state.JSONSchema.properties[tmpList[0]]) {
-      this.messageError({
-        message: '已经存在相同的key值，请重新创建',
-        duration: 3
-      });
-      return;
-    }
+    // let tmpList = Object.keys(newProperty);
+    // if (this.state.JSONSchema.properties[tmpList[0]]) {
+      // this.messageError({
+      //   message: '已经存在相同的key值，请重新创建',
+      //   duration: 3
+      // });
+      // return;
+    // }
     let tmpProperties = Object.assign(this.state.JSONSchema.properties, {
       ...newProperty
     });
@@ -104,6 +109,11 @@ class JsonSchemaCreator extends React.Component {
       message: '添加成功',
       duration: 3
     });
+    // this.setFormData(this.state.JSONSchema.properties);
+  }
+
+  setNewPropertyNested = (newProperty) => {
+
   }
 
   deleteProperty = (keyPath) => {
@@ -125,6 +135,53 @@ class JsonSchemaCreator extends React.Component {
     });
   }
 
+  setFormData = (formData) => {
+    this.setState((prevState, props) => {
+      return {
+        FormData: {
+          ...prevState.FormData,
+          ...formData
+        }
+      };
+    });
+  }
+
+  // setFormData = (properties) => {
+    // let tmpFormData = {};
+    // let tmpPropertiesEntries = Object.entries(properties);
+    // for (let itemList of tmpPropertiesEntries) {
+    //   if (itemList[1].type === 'string') {
+    //     tmpFormData[itemList[0]] === undefined && (tmpFormData[itemList[0]] = '');
+    //   } else if (itemList[1].type === 'object' && itemList[1].properties) {
+    //     let resData = this.setFormDataNested({
+    //       key: itemList[0],
+    //       properties: itemList[1].properties
+    //     });
+    //     tmpFormData[resData.key] = resData.formData;
+    //   }
+    // }
+    // this.setState({
+    //   FormData: tmpFormData
+    // });
+  // }
+
+  // setFormDataNested = (param) => {
+  //   let tmpKey = param.key;
+  //   let tmpFormData = {};
+  //   let tmpPropertiesEntries = Object.entries(param.properties);
+  //   for (let itemList of tmpPropertiesEntries) {
+  //     if (itemList[1].type === 'string') {
+  //       tmpFormData[itemList[0]] = '';
+  //     } else if (itemList[1].type === 'object' && itemList[1].properties) {
+  //       this.setFormDataNested(itemList[1].properties);
+  //     }
+  //   }
+  //   return {
+  //     key: tmpKey,
+  //     formData: tmpFormData
+  //   };
+  // }
+
   // * ------------
 
 
@@ -142,12 +199,16 @@ class JsonSchemaCreator extends React.Component {
                 <JsonObjectType
                   deleteProperty={
                   this.deleteProperty
-                } properties={
-                  this.state.JSONSchema.properties
+                } schema={
+                  this.state.JSONSchema
                 } setNewProperty={
                   this.setNewProperty
+                } formData={
+                  this.state.FormData
                 } outerObject={
                   true
+                } setFormData={
+                  this.setFormData
                 }></JsonObjectType>
               </div>
             </TabPane>

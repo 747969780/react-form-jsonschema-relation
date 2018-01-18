@@ -5,7 +5,8 @@ import React from 'react';
 // * antd 组件
 import {
   Button,
-  Form
+  Form,
+  Input
 } from 'antd';
 
 import ActionButtons from '@components/ActionButtons';
@@ -70,13 +71,30 @@ class JsonStringType extends React.Component {
 
   // * ------------
 
+  formDataValueInput = (event) => {
+    let value = event.target.value;
+    console.log('formDataValueInput value:', value);
+    this.props.setFormData({
+      [this.props.typeProperty[0]]: value
+    });
+  }
+
   deleteSelf = () => {
     this.props.deleteProperty(this.props.typeProperty[0]);
+  }
+
+  moveSelfUp = () => {
+
+  }
+
+  moveSelfDown = () => {
+
   }
 
   // * ------------
 
   render () {
+    // * 属性的信息列表
     const propertiesListComp = this.state.propertiesList.map((name) => {
       if (this.stringTypeProperty.indexOf(name) === -1) {
         return '';
@@ -85,7 +103,7 @@ class JsonStringType extends React.Component {
       return <p className="init-p" key={ `${ name }` }>{ `${ name }: ${ nameValue }`  }</p>
     });
     return (
-      <FormItem className="form-spe-border middle-padding-tb" style={ {
+      <FormItem className="form-spe-border middle-padding" style={ {
         borderColor: '#' + this.state.borderColor
       } }>
         <ActionButtons {
@@ -94,9 +112,14 @@ class JsonStringType extends React.Component {
           this.stringTypeProperty
         }></ActionButtons>
         <div className="formItemContentLayer">
-          <Button type="danger" icon="close" onClick={ this.deleteSelf }/>
+          <div className="formItemLayerContentBtns">
+            <Button type="danger" icon="close" onClick={ this.deleteSelf }/>
+            {/* <Button type="primary" icon="arrow-up" onClick={ this.moveSelfUp }/>
+            <Button type="primary" icon="arrow-down" onClick={ this.moveSelfDown }/> */}
+          </div>
           <div className="formItemLayerContentGrow">
             { propertiesListComp }
+            <Input defaultValue={ this.props.formDataValue } onInput={ this.formDataValueInput }></Input>
           </div>
         </div>
       </FormItem>

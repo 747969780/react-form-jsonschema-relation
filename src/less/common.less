@@ -1,10 +1,23 @@
 // * 全局覆盖antd样式
 
-:global(.tabPaneInnerContainer) {
-  height: 700px;
-  overflow-y: auto;
-  box-sizing: border-box;
+:global {
+  .tabPaneInnerContainer {
+    height: 700px;
+    overflow-y: auto;
+    box-sizing: border-box;
     padding: 0 30px;
+  }
+  .ant-select-dropdown {
+    z-index: 1000000;
+  }
+}
+
+// * ----------------
+
+:global {
+  #root {
+    min-height: 100%;
+  }
 }
 
 // * ----------------
@@ -16,6 +29,10 @@
     box-sizing: border-box;
     border-top: 1px solid #e8e8e8;
     border-bottom: 1px solid #e8e8e8;
+    border-left-style: dashed;
+    border-right-style: dashed;
+    border-left-width: 1px;
+    border-right-width: 1px;
     &.middle-padding {
       padding: 12px 30px;
     }
@@ -36,10 +53,24 @@
       padding-left: 12px;
       border-left: 1px solid #e8e8e8;
     }
-    .ant-btn {
+    .formItemLayerContentBtns {
       flex-grow: 0;
       flex-shrink: 0;
       margin-right: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      .ant-btn {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-bottom: 12px;
+      }
+    }
+    .ant-btn {
+      flex-grow: 0;
+      flex-shrink: 0;
+      // margin-right: 12px;
     }
     .ant-input {
       flex-grow: 1;
@@ -52,3 +83,15 @@
 }
 
 // * ----------------
+
+// * 内部的嵌套对象类型的按钮容器
+:global {
+  .nested-object-actionbtn-wrapper {
+    display: flex;
+    > button {
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+  }
+}

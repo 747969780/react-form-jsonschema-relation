@@ -77,9 +77,18 @@ class arrayTypeProperty extends React.Component {
     this.props.deleteProperty(this.props.typeProperty[0]);
   }
 
+  moveSelfUp = () => {
+
+  }
+
+  moveSelfDown = () => {
+
+  }
+
   // * ------------
 
   render () {
+    // * 属性的信息列表
     const propertiesListComp = this.state.propertiesList.map((name) => {
       if (this.arrayTypeProperty.indexOf(name) === -1) {
         return '';
@@ -87,8 +96,9 @@ class arrayTypeProperty extends React.Component {
       let nameValue = (this.props.typeProperty[1])[name] !== undefined ? (this.props.typeProperty[1])[name] : this.props.typeProperty[0];
       return <p className="init-p" key={ `${ name }` }>{ `${ name }: ${ nameValue }`  }</p>
     });
+
     return (
-      <FormItem className="form-spe-border middle-padding-tb" style={ {
+      <FormItem className="form-spe-border middle-padding" style={ {
         borderColor: '#' + this.state.borderColor
       } }>
         <ActionButtons {
@@ -97,7 +107,11 @@ class arrayTypeProperty extends React.Component {
           this.arrayTypeProperty
         }></ActionButtons>
         <div className="formItemContentLayer">
-          <Button type="danger" icon="close" onClick={ this.deleteSelf }/>
+          <div className="formItemLayerContentBtns">
+            <Button type="danger" icon="close" onClick={ this.deleteSelf }/>
+            {/* <Button type="primary" icon="arrow-up" onClick={ this.moveSelfUp }/>
+            <Button type="primary" icon="arrow-down" onClick={ this.moveSelfDown }/> */}
+          </div>
           <div className="formItemLayerContentGrow">
             { propertiesListComp }
           </div>
