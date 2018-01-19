@@ -3,10 +3,8 @@ import React from 'react';
 // * 页面样式
 import styles from './JsonSchemaCreator.less';
 
-import SetForm from '@components/SetForm';
-
 // * 表单创建-组件
-import FormCtrlCreator from '@components/FormCtrl/FormCtrlCreator';
+import JsonObjectType from '@components/JsonSchemaTypes/JsonObjectType';
 
 // * antd tabs组件
 import {
@@ -40,14 +38,19 @@ class JsonSchemaCreator extends React.Component {
    * @formDataSchema: formData的总合集
    */
   state = {
-    showSetForm: false,
+    showSchemaCreator: false,
     JSONSchema: {
       definitions: {},
       type: 'object',
-      title: '',
-      description: '',
+      title: 'outer-object-title',
+      description: 'outer-object-desc',
       required: [],
       properties: {}
+    },
+    UISchema: {
+    },
+    FormData: {
+
     }
   }
 
@@ -74,22 +77,22 @@ class JsonSchemaCreator extends React.Component {
     message.error(option.message, option.duration);
   }
 
-  closeSetForm = () => {
+  closeSchemaCreator = () => {
     this.setState({
-      showSetForm: false
+      showSchemaCreator: false
     });
   }
 
   setNewProperty = (newProperty) => {
     console.log('newProperty', newProperty);
-    let tmpList = Object.keys(newProperty);
-    if (this.state.JSONSchema.properties[tmpList[0]]) {
-      this.messageError({
-        message: '已经存在相同的key值，请重新创建',
-        duration: 3
-      });
-      return;
-    }
+    // let tmpList = Object.keys(newProperty);
+    // if (this.state.JSONSchema.properties[tmpList[0]]) {
+      // this.messageError({
+      //   message: '已经存在相同的key值，请重新创建',
+      //   duration: 3
+      // });
+      // return;
+    // }
     let tmpProperties = Object.assign(this.state.JSONSchema.properties, {
       ...newProperty
     });
@@ -106,6 +109,11 @@ class JsonSchemaCreator extends React.Component {
       message: '添加成功',
       duration: 3
     });
+    // this.setFormData(this.state.JSONSchema.properties);
+  }
+
+  setNewPropertyNested = (newProperty) => {
+
   }
 
   deleteProperty = (keyPath) => {
@@ -127,50 +135,81 @@ class JsonSchemaCreator extends React.Component {
     });
   }
 
-  // * ------------
-
-  actionAddProperty = () => {
-    this.setState({
-      showSetForm: true
+  setFormData = (formData) => {
+    this.setState((prevState, props) => {
+      return {
+        FormData: {
+          ...prevState.FormData,
+          ...formData
+        }
+      };
     });
   }
 
-  actionSetRequired = () => {
+  // setFormData = (properties) => {
+    // let tmpFormData = {};
+    // let tmpPropertiesEntries = Object.entries(properties);
+    // for (let itemList of tmpPropertiesEntries) {
+    //   if (itemList[1].type === 'string') {
+    //     tmpFormData[itemList[0]] === undefined && (tmpFormData[itemList[0]] = '');
+    //   } else if (itemList[1].type === 'object' && itemList[1].properties) {
+    //     let resData = this.setFormDataNested({
+    //       key: itemList[0],
+    //       properties: itemList[1].properties
+    //     });
+    //     tmpFormData[resData.key] = resData.formData;
+    //   }
+    // }
+    // this.setState({
+    //   FormData: tmpFormData
+    // });
+  // }
 
-  }
+  // setFormDataNested = (param) => {
+  //   let tmpKey = param.key;
+  //   let tmpFormData = {};
+  //   let tmpPropertiesEntries = Object.entries(param.properties);
+  //   for (let itemList of tmpPropertiesEntries) {
+  //     if (itemList[1].type === 'string') {
+  //       tmpFormData[itemList[0]] = '';
+  //     } else if (itemList[1].type === 'object' && itemList[1].properties) {
+  //       this.setFormDataNested(itemList[1].properties);
+  //     }
+  //   }
+  //   return {
+  //     key: tmpKey,
+  //     formData: tmpFormData
+  //   };
+  // }
 
-  actionSetTitle = () => {
+  // * ------------
 
-  }
 
-  actionSetDescription = () => {
-
-  }
-
-  actionSetDefinitions = () => {
-
-  }
 
   // * ------------
 
   // * 渲染
   render () {
     return (
-      <div className={ styles.mainWrapper }>
+      <div className={ styles.mainWrapper } id="main-wrapper">
         <div className={ styles.creator }>
           <Tabs defaultActiveKey="1" onChange={this.tabsChange}>
             <TabPane tab="Schema" key="1">
               <div className={ styles.tabPaneInnerContainer }>
-                <div className={ styles.propertyController }>
-                  <Button type="primary" onClick={this.actionAddProperty}>添加property</Button>
-                  <Button type="primary" onClick={this.actionSetRequired}>设置required</Button>
-                  <Button type="primary" onClick={this.actionSetTitle}>设置title</Button>
-                  <Button type="primary" onClick={this.actionSetDescription}>设置description</Button>
-                  <Button type="primary" onClick={this.actionSetDefinitions}>设置definitions</Button>
-                </div>
-                <FormCtrlCreator deleteProperty={ this.deleteProperty } properties={
-                  this.state.JSONSchema.properties
-                }></FormCtrlCreator>
+                <JsonObjectType
+                  deleteProperty={
+                  this.deleteProperty
+                } schema={
+                  this.state.JSONSchema
+                } setNewProperty={
+                  this.setNewProperty
+                } formData={
+                  this.state.FormData
+                } outerObject={
+                  true
+                } setFormData={
+                  this.setFormData
+                }></JsonObjectType>
               </div>
             </TabPane>
             <TabPane tab="UISchema" key="2"></TabPane>
@@ -178,10 +217,6 @@ class JsonSchemaCreator extends React.Component {
           </Tabs>
         </div>
         <div className={ styles.previewer }></div>
-        {
-          this.state.showSetForm &&
-          <SetForm closeSetForm={ this.closeSetForm } setNewProperty={ this.setNewProperty }></SetForm>
-        }
       </div>
     );
   }

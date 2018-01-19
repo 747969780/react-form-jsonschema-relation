@@ -1,22 +1,97 @@
 // * 全局覆盖antd样式
 
-:global(.tabPaneInnerContainer) {
-  height: 700px;
-  overflow-y: auto;
-  box-sizing: border-box;
+:global {
+  .tabPaneInnerContainer {
+    height: 700px;
+    overflow-y: auto;
+    box-sizing: border-box;
     padding: 0 30px;
+  }
+  .ant-select-dropdown {
+    z-index: 1000000;
+  }
 }
 
-.formItemContentLayer {
-  display: flex;
-  justify-content: flex-start;
-  :global(.ant-btn) {
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin-left: 12px;
+// * ----------------
+
+:global {
+  #root {
+    min-height: 100%;
   }
-  :global(.ant-input) {
-    flex-grow: 1;
-    flex-shrink: 1;
+}
+
+// * ----------------
+// * 用于区分不同的JsonType
+
+// * 上下border
+:global {
+  .form-spe-border {
+    box-sizing: border-box;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    border-left-style: dashed;
+    border-right-style: dashed;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    &.middle-padding {
+      padding: 12px 30px;
+    }
+    &.middle-padding-tb {
+      padding: 12px 0;
+    }
+  }
+}
+
+:global {
+  .formItemContentLayer {
+    display: flex;
+    justify-content: flex-start;
+    .formItemLayerContentGrow {
+      flex-grow: 1;
+      flex-shrink: 1;
+      box-sizing: border-box;
+      padding-left: 12px;
+      border-left: 1px solid #e8e8e8;
+    }
+    .formItemLayerContentBtns {
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      .ant-btn {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-bottom: 12px;
+      }
+    }
+    .ant-btn {
+      flex-grow: 0;
+      flex-shrink: 0;
+      // margin-right: 12px;
+    }
+    .ant-input {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+  }
+  .init-p {
+    line-height: 1.2;
+  }
+}
+
+// * ----------------
+
+// * 内部的嵌套对象类型的按钮容器
+:global {
+  .nested-object-actionbtn-wrapper {
+    display: flex;
+    > button {
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
   }
 }

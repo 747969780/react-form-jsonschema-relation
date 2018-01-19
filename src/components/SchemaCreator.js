@@ -1,7 +1,7 @@
 import React from 'react';
 
 // * 样式
-import styles from '@less/set-form.less';
+import styles from '@less/schema-creator.less';
 
 // * antd 组件
 import {
@@ -16,17 +16,17 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 
 const types = [{
-  value: 1,
+  value: 'string',
   typeName: 'string'
 }, {
-  value: 2,
+  value: 'array',
   typeName: 'array'
 }, {
-  value: 3,
+  value: 'object',
   typeName: 'object'
 }];
 
-class SetForm extends React.Component {
+class SchemaCreator extends React.Component {
   state = {
     newProperty: {
       type: '',
@@ -92,7 +92,7 @@ class SetForm extends React.Component {
 
   // * ------------
 
-  resetFormValue = () => {
+  reSchemaCreatorValue = () => {
     this.setState({
       newProperty: {
         type: '',
@@ -111,8 +111,8 @@ class SetForm extends React.Component {
       }
     }
     delete newProperty[this.state.newProperty.key].key;
-    this.resetFormValue();
-    this.props.closeSetForm();
+    this.reSchemaCreatorValue();
+    this.props.closeSchemaCreator();
     this.props.setNewProperty(newProperty);
   }
 
@@ -123,13 +123,13 @@ class SetForm extends React.Component {
       return <Option key={ ele.value } value={ ele.value }>{ ele.typeName }</Option>;
     });
     return (
-      <div className={ styles.setformContainer }>
+      <div className={ styles.schemaCreatorContainer }>
         <Form className={ styles.formIns }>
           <FormItem label="key">
             <Input value={ this.state.newProperty.key } onInput={ this.keyInput }></Input>
           </FormItem>
           <FormItem label="type">
-            <Select value={ this.state.newProperty.type } onChange={this.typeChange}>
+            <Select allowClear={ true } value={ this.state.newProperty.type } onChange={this.typeChange}>
               { selectOptions }
             </Select>
           </FormItem>
@@ -145,17 +145,17 @@ class SetForm extends React.Component {
             </FormItem>
           }
           <FormItem>
-            <Button className={ styles.btnMR } onClick={ this.props.closeSetForm }>取消</Button>
-            <Button className={ styles.btnMR } type="danger" onClick={ this.resetFormValue }>重置</Button>
+            <Button className={ styles.btnMR } onClick={ this.props.closeSchemaCreator }>取消</Button>
+            <Button className={ styles.btnMR } type="danger" onClick={ this.reSchemaCreatorValue }>重置</Button>
             <Button className={ styles.btnMR } type="primary" onClick={ this.confirmNewPropery }>确认</Button>
           </FormItem>
         </Form>
         <div className={ styles.closeBtn }>
-          <Button shape="circle" icon="close" onClick={ this.props.closeSetForm }/>
+          <Button shape="circle" icon="close" onClick={ this.props.closeSchemaCreator }/>
         </div>
       </div>
     );
   }
 }
 
-export default SetForm;
+export default SchemaCreator;

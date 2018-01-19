@@ -1,17 +1,16 @@
 @import '~@less/common.less';
 
 .mainWrapper {
-  height: 100%;
-  overflow-y: scroll;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   > div {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 48%;
-    height: 96%;
-    margin: auto 1%;
-    min-height: 400px;
+    min-height: 100%;
+    margin: 0 1%;
+    // min-height: 400px;
     box-sizing: border-box;
   }
   .creator {
@@ -28,23 +27,4 @@
   //   box-sizing: border-box;
   //   padding: 0 30px;
   // }
-}
-.propertyController {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  // padding: 0 0 0 30px;
-  > button {
-    flex-shrink: 1;
-    margin: 0 8% 12px 0;
-    width: 25%;
-    max-width: 159px;
-  }
-}
-.tabPaneInnerContainer {
-  height: 700px;
-  overflow-y: auto;
-  box-sizing: border-box;
-  padding: 0 30px;
 }

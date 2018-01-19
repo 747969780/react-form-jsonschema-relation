@@ -14,8 +14,8 @@ function RouterConfig({ history }) {
     <LocaleProvider locale={zh_CN}>
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={IndexPage} />
-          <Route path="/create-jsonschema" exact component={ JsonSchemaCreator }></Route>
+          <Route path="/" exact component={ JsonSchemaCreator }></Route>
+          <Route path="/index" exact component={IndexPage} />
         </Switch>
       </Router>
     </LocaleProvider>
